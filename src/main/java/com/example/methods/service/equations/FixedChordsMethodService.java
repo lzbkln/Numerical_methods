@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class FixedChordsMethodService {
+public class FixedChordsMethodService implements NonlinearEquation{
     private static final int MAX_ITER = 100;
     private static final double H = 1e-5;
     private static final double TOLERANCE = 1e-6;
