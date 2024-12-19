@@ -15,15 +15,8 @@ public class ProblemMapper {
         return DtoProblem.builder()
                 .id(problem.getId().toString())
                 .name(problem.getName())
-                .fullDescription(problem.getFullDescription())
+                .description(problem.getDescription())
                 .methods(problem.getMethods().stream().map(method -> methodMapper.mapToDto(method)).toList())
-                .build();
-    }
-
-    public Problem mapToModel(DtoProblem dtoProblem) {
-        return Problem.builder()
-                .name(dtoProblem.getName())
-                .fullDescription(dtoProblem.getFullDescription())
                 .build();
     }
 }

@@ -12,6 +12,6 @@ import java.util.List;
 public class DtoProblem {
     private String id;
     private String name;
-    private String fullDescription;
+    private String description;
     private List<DtoMethod> methods;
 }

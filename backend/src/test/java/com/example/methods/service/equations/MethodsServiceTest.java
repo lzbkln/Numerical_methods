@@ -1,9 +1,7 @@
 package com.example.methods.service.equations;
 
-import com.example.methods.MethodsApplication;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -23,7 +21,7 @@ public class MethodsServiceTest {
         double epsilon = 0.00001;
         double a = 1;
         double b = 2;
-        double result = bisectionMethodService.findRoot(equation, a, b, epsilon);
+        double result = bisectionMethodService.solveProblem(equation, a, b, epsilon);
 
         String resultString = String.format("%.5f", result);
         assertEquals("1,27277", resultString);
@@ -38,7 +36,7 @@ public class MethodsServiceTest {
         double b = 101;
 
         assertThrows(IllegalArgumentException.class, () -> {
-            bisectionMethodService.findRoot(equation, a, b, epsilon);
+            bisectionMethodService.solveProblem(equation, a, b, epsilon);
         });
     }
 
@@ -50,7 +48,7 @@ public class MethodsServiceTest {
         double epsilon = 0.00001;
         double a = 1;
         double b = 2;
-        double result = newtonMethodService.findRoot(equation, a, b, epsilon);
+        double result = newtonMethodService.solveProblem(equation, a, b, epsilon);
 
         String resultString = String.format("%.5f", result);
         assertEquals("1,27277", resultString);
@@ -66,7 +64,7 @@ public class MethodsServiceTest {
         double b = 102;
 
         assertThrows(IllegalArgumentException.class, () -> {
-            newtonMethodService.findRoot(equation, a, b, epsilon);
+            newtonMethodService.solveProblem(equation, a, b, epsilon);
         });
     }
 
@@ -78,7 +76,7 @@ public class MethodsServiceTest {
         double epsilon = 0.00001;
         double a = 1;
         double b = 2;
-        double result = fixedChordsMethodService.findRoot(equation, a, b, epsilon);
+        double result = fixedChordsMethodService.solveProblem(equation, a, b, epsilon);
 
         String resultString = String.format("%.5f", result);
         assertEquals("1,27277", resultString);
@@ -95,7 +93,7 @@ public class MethodsServiceTest {
         double b = 102;
 
         assertThrows(IllegalArgumentException.class, () -> {
-            fixedChordsMethodService.findRoot(equation, a, b, epsilon);
+            fixedChordsMethodService.solveProblem(equation, a, b, epsilon);
         });
     }
 
@@ -107,7 +105,7 @@ public class MethodsServiceTest {
         double epsilon = 0.00001;
         double a = 1;
         double b = 2;
-        double result = noFixedChordsMethodService.findRoot(equation, a, b, epsilon);
+        double result = noFixedChordsMethodService.solveProblem(equation, a, b, epsilon);
 
         String resultString = String.format("%.5f", result);
         assertEquals("1,27277", resultString);
@@ -124,7 +122,7 @@ public class MethodsServiceTest {
         double b = 102;
 
         assertThrows(IllegalArgumentException.class, () -> {
-            noFixedChordsMethodService.findRoot(equation, a, b, epsilon);
+            noFixedChordsMethodService.solveProblem(equation, a, b, epsilon);
         });
     }
 }

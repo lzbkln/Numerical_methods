@@ -9,8 +9,8 @@ import lombok.Setter;
 @Builder
 public class DtoMethod {
     private String id;
+    private String problemId;
     private String name;
-    private String fullDescription;
-    private String shortDescription;
+    private String description;
     private String example;
 }
