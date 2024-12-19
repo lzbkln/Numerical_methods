@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController(value = "/numerical_methods")
+@RestController
+@RequestMapping("/numerical_methods")
 @RequiredArgsConstructor
 public class SolveController {
     private final MethodService methodService;
