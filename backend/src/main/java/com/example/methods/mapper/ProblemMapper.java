@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ProblemMapper {
-    private MethodMapper methodMapper;
+    private final MethodMapper methodMapper;
 
     public DtoProblem mapToDto(Problem problem) {
         return DtoProblem.builder()
                 .id(problem.getId().toString())
                 .name(problem.getName())
                 .description(problem.getDescription())
-                .methods(problem.getMethods().stream().map(method -> methodMapper.mapToDto(method)).toList())
+                .methods(problem.getMethods().stream().map(methodMapper::mapToDto).toList())
                 .build();
     }
 }

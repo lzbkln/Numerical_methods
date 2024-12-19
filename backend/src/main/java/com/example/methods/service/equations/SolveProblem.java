@@ -4,5 +4,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 abstract public class SolveProblem {
-    abstract double solveProblem(String userFunction, double a, double b, double epsilon);
+    abstract public double solveProblem(String userFunction, double a, double b, double epsilon);
 }
