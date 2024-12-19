@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class NewtonMethodService implements NonlinearEquation{
+public class NewtonMethodService extends SolveProblem {
     private static final int MAX_ITER = 100;
     private static final double H = 1e-5;
     private static final double TOLERANCE = 1e-6;
@@ -39,7 +39,7 @@ public class NewtonMethodService implements NonlinearEquation{
     public static double determineInitialPoint(Function<Double, Double> f, double a, double b) {
         double fa = f.apply(a);
         double fb = f.apply(b);
-        if (fa * fb >= 0){
+        if (fa * fb >= 0) {
             throw new IllegalArgumentException("Корня в заданном отрезке нет.");
         }
         double d2fa = numericalSecondDerivative(f, a);
@@ -54,7 +54,8 @@ public class NewtonMethodService implements NonlinearEquation{
         }
     }
 
-    public double findRoot(String userFunction, double a, double b, double epsilon) {
+    @Override
+    public double solveProblem(String userFunction, double a, double b, double epsilon) {
         Function<Double, Double> f = FunctionParser.parseFunction(userFunction);
         Function<Double, Double> df = x -> numericalDerivative(f, x);
         double x0 = determineInitialPoint(f, a, b);

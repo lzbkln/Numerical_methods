@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class FixedChordsMethodService implements NonlinearEquation{
+public class FixedChordsMethodService extends SolveProblem {
     private static final int MAX_ITER = 100;
     private static final double H = 1e-5;
     private static final double TOLERANCE = 1e-6;
@@ -55,7 +55,8 @@ public class FixedChordsMethodService implements NonlinearEquation{
         throw new IllegalArgumentException("Метод неподвижных хорд не сходится за максимальное количество итераций.");
     }
 
-    public double findRoot(String userFunction, double a, double b, double epsilon) {
+    @Override
+    public double solveProblem(String userFunction, double a, double b, double epsilon) {
         Function<Double, Double> f = FunctionParser.parseFunction(userFunction);
         double[] initialPoints = determineInitialPoints(f, a, b);
         double x0 = initialPoints[0];

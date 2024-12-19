@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class BisectionMethodService implements NonlinearEquation {
+public class BisectionMethodService extends SolveProblem {
 
     public static double bisectionMethod(Function<Double, Double> f, double a, double b, double epsilon) {
         double mid;
@@ -24,7 +24,8 @@ public class BisectionMethodService implements NonlinearEquation {
         return (a + b) / 2;
     }
 
-    public double findRoot(String userFunction, double a, double b, double epsilon) {
+    @Override
+    public double solveProblem(String userFunction, double a, double b, double epsilon) {
         Function<Double, Double> f = FunctionParser.parseFunction(userFunction);
         double fa = f.apply(a);
         double fb = f.apply(b);
