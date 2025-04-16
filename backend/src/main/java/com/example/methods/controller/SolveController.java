@@ -23,10 +23,10 @@ public class SolveController {
         return problemService.getAllProblems();
     }
 
-    @GetMapping("/problems/{problemName}/methods")
-    public List<DtoMethod> getAllMethodsByProblemName(@PathVariable String problemName) {
-        return methodService.getAllMethodsByProblemName(problemName);
-    }
+//    @GetMapping("/problems/{problemName}/methods")
+//    public List<DtoMethod> getAllMethodsByProblemName(@PathVariable String problemName) {
+//        return methodService.getAllMethodsByProblemName(problemName);
+//    }
 
     @GetMapping("/methods/{methodName}")
     public DtoMethod getAllAboutMethod(@PathVariable String methodName) {
