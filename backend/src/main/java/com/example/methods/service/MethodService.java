@@ -44,7 +44,7 @@ public class MethodService {
     public SolveProblemResponse solveProblem(SolveProblemRequest solveProblemRequest) {
         SolveProblem solveProblem;
         switch (solveProblemRequest.getMethodName()) {
-            case "Метод Дихотомия" -> solveProblem = bisectionMethodService;
+            case "Метод дихотомии" -> solveProblem = bisectionMethodService;
             case "Метод неподвижных хорд" -> solveProblem = fixedChordsMethodService;
             case "Метод Ньютона" -> solveProblem = newtonMethodService;
             case "Метод подвижных хорд" -> solveProblem = noFixedChordsMethodService;
