@@ -1,14 +1,19 @@
 spring:
   datasource:
-    url: jdbc:postgresql://postgresql:5432/methods
+    url: jdbc:postgresql://localhost:5433/methods
     username: postgres
     password: postgres
+    hikari:
+      maximum-pool-size: 5
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
-  liquibase:
-    change-log: classpath:/db/changelog/db.changelog-master.xml
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   port: 8080

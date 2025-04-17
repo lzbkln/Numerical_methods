@@ -1,15 +1,15 @@
 package com.example.methods.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @Builder
 @Table(name = "methods")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Method {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

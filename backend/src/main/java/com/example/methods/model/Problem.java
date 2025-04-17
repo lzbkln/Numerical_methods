@@ -1,9 +1,7 @@
 package com.example.methods.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,6 +10,8 @@ import java.util.List;
 @Setter
 @Builder
 @Table(name = "problems")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Problem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

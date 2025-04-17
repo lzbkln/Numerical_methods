@@ -6,7 +6,7 @@
 -- ****************************************************
 
 CREATE TABLE problems (
-    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL
 );
