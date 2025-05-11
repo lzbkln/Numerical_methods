@@ -1,0 +1,192 @@
+@font-face {
+    font-family: 'Jura';
+    src: url('../fonts/juramedium.woff2') format('woff2');
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Jura', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f9;
+    color: #333;
+    position: relative;
+}
+
+.line {
+    width: 42%;
+    height: 1px;
+    background-color: #817187;
+}
+
+.horizontal-line {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+}
+
+.horizontal-line-2 {
+    position: absolute;
+    top: 50%;
+    left: 58%;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../pics/background2.png');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+header {
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.logo {
+    width: 18%;
+    height: auto;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.data-container {
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgb(142, 134, 145);
+    font-family: 'Jura', sans-serif;
+    overflow: hidden;
+    border: 1px solid #efe9e9;
+}
+
+.method-info {
+    margin-bottom: 20px;
+}
+
+.method-name {
+    color: #74597e;
+    font-size: 2em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.method-description,
+.method-example {
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.method-description strong,
+.method-example strong {
+    color: #353434;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.input-container label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.input-container input[type="text"],
+.input-container input[type="number"] {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 80%;
+    max-width: 400px;
+}
+
+.input-container button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #b095b5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.input-container button:hover {
+    background-color: #74597e;
+}
+
+.result-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #c3b0ca;
+    border-radius: 4px;
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+    display: none;
+}
+
+.result-container p {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+/* Подвал */
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 1.3% 0;
+    background-color: #e3ceea;
+    color: #302735;
+    margin-top: auto;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.footer-nav {
+    margin-top: 0.5em;
+}
+
+.footer-nav a {
+    color: #302735;
+    text-decoration: none;
+    margin: 0 0.5em;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.footer-nav a:hover {
+    color: #9f94c6;
+}

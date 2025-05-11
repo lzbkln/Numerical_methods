@@ -1,0 +1,167 @@
+@font-face {
+    font-family: 'Jura';
+    src: url('../fonts/juramedium.woff2') format('woff2');
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Jura', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f9;
+    color: #333;
+    position: relative;
+}
+
+.line {
+    width: 42%;
+    height: 1px;
+    background-color: #817187;
+}
+
+.horizontal-line {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+}
+
+.horizontal-line-2 {
+    position: absolute;
+    top: 50%;
+    left: 58%;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../pics/background2.png');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+header {
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.logo {
+    width: 18%;
+    height: auto;
+}
+
+.content {
+    text-align: center;
+    margin-top: 1%;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2% 4%;
+    border-radius: 5%;
+    box-shadow: 0 0.4em 0.8em rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+    margin-bottom: 5%;
+}
+
+.menu {
+    margin-top: 2%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2%;
+}
+
+.group {
+    margin-bottom: 2%;
+    width: 100%;
+    max-width: 300px;
+}
+
+.group-button {
+    background-color: #d7c3dd;
+    color: #302735;
+    padding: 1.5% 2.5%;
+    cursor: pointer;
+    width: 80%;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+    font-size: 16px;
+}
+
+.group-button:hover {
+    background-color: #9f94c6;
+}
+
+.group-button:focus {
+    outline: none;
+}
+
+.methods {
+    margin: 1% auto 0 auto;
+    background-color: #ffffff;
+    border-radius: 1%;
+    box-shadow: 0 7px 15px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 300px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+.methods p {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.method-link{
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Подвал */
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 1.3% 0;
+    background-color: #e3ceea;
+    color: #302735;
+    margin-top: auto;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.footer-nav {
+    margin-top: 0.5em;
+}
+
+.footer-nav a {
+    color: #302735;
+    text-decoration: none;
+    margin: 0 0.5em;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.footer-nav a:hover {
+    color: #9f94c6;
+}
