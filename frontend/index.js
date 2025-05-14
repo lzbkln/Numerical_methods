@@ -14,5 +14,4 @@ app.get("/method/:group/:method", (req, res) => {
   res.sendFile(path.join(__dirname, `/public/pages/page3.html`));
 })
 
-app.listen(800, () => console.log("Listening on port 800"));
-
+app.listen(3333, () => console.log("Listening on port 3333"));
