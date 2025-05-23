@@ -36,7 +36,6 @@ header {
 }
 
 .text {
-    position: absolute;
     color: white;
     margin: 40px 0;
 }
@@ -47,28 +46,22 @@ header {
     width: 35%;
     font-size: 3vw;
     line-height: 2.5vw;
+    position: absolute;
 }
 
 .subtitle {
-    top: 50%;
-    left: 5%;
-    width: 4%;
     font-size: 2.5vw;
     line-height: 2.1vw;
 }
 
 .subtitle2 {
-    top: 50%;
-    left: 10%;
-    width: 6%;
+    max-width: 6%;
     font-size: 1.2vw;
     line-height: 1vw;
 }
 
 .description {
-    top: 70%;
-    left: 80%;
-    width: 8%;
+    max-width: 8%;
     font-size: 1.2vw;
     line-height: 1vw;
 }
@@ -93,26 +86,82 @@ header {
 .horizontal-line-2 {
     position: absolute;
     top: 50%;
-    left: 58%;
+    right: 0;
 }
 
 .button {
-    position: absolute;
-    top: 75%;
-    left: 5%;
-    width: 15%;
-    height: 8%;
+    width: 260px;
+    height: 55px;
     border: 2px solid #ffffff;
     cursor: pointer;
     margin: 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .button-text {
-    position: absolute;
-    top: 25%;
-    left: 35%;
-    width: 30%;
     font-size: 1.5vw;
     line-height: 1.2vw;
     color: #ffffff;
+}
+
+.subtitle-container {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    display: flex;
+    align-items: center;
+}
+
+.buttons-container{
+    position: absolute;
+    top: 75%;
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+    .logo {
+        width: 50%;
+    }
+
+    .line {
+        width: 35%;
+    }
+
+    .title {
+        width: 60%;
+        font-size: 8vw;
+        line-height: 5vw;
+    }
+
+    .subtitle {
+        font-size: 8vw;
+        line-height: 2.1vw;
+    }
+
+    .subtitle2 {
+        font-size: 5vw;
+        line-height: 3vw;
+    }
+
+    .button {
+        width: 170px;
+        height: 55px;
+    }
+
+    .button-text {
+        font-size: 4.5vw;
+    }
+
+    .description {
+        max-width: 30%;
+        font-size: 3vw;
+        line-height: 2vw;
+    }
 }
