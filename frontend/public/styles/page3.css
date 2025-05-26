@@ -20,23 +20,6 @@ body {
     position: relative;
 }
 
-.line {
-    width: 42%;
-    height: 1px;
-    background-color: #817187;
-}
-
-.horizontal-line {
-    position: absolute;
-    top: 50%;
-    left: 0%;
-}
-
-.horizontal-line-2 {
-    position: absolute;
-    top: 50%;
-    left: 58%;
-}
 
 .background {
     position: absolute;
@@ -60,6 +43,24 @@ header {
 .logo {
     width: 18%;
     height: auto;
+}
+
+.line {
+    width: 42%;
+    height: 1px;
+    background-color: #8d7d93;
+}
+
+.horizontal-line {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+}
+
+.horizontal-line-2 {
+    position: absolute;
+    top: 50%;
+    right: 0;
 }
 
 main {
@@ -99,11 +100,18 @@ main {
     line-height: 1.6;
     margin-bottom: 15px;
     font-size: 1.1em;
+    text-align: justify;
+    text-indent: 2em;
 }
 
-.method-description strong,
-.method-example strong {
+.result-container strong {
     color: #353434;
+}
+
+.method-image {
+    float: right;
+    margin: 10px;
+    max-width: 250px;
 }
 
 .input-container {
@@ -189,4 +197,18 @@ footer p {
 
 .footer-nav a:hover {
     color: #9f94c6;
+}
+
+@media screen and (max-width: 768px) {
+    .logo {
+        width: 50%;
+    }
+
+    .line {
+        width: 35%;
+    }
+
+    .method-image{
+        width: 50%
+    }
 }

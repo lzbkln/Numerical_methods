@@ -2,8 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
   let url = window.location.href.split('/');
   let methodId = url.at(-1);
   let groupId = url.at(-2);
-  console.log(methodId);
-  console.log(groupId)
 
   fetch(`http://localhost:8080/numerical_methods/methods/${methodId}`)
     .then((response) => response.json())
@@ -16,20 +14,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
       let descriptionElement = document.createElement('p');
       descriptionElement.classList.add('method-description');
-      descriptionElement.innerHTML = `<strong>Описание:</strong> ${data.description}`;
+      descriptionElement.innerHTML = `${data.description}`;
+
+      container.appendChild(nameElement);
+      container.appendChild(descriptionElement);
+
+      if (data.imageUrl) {
+        let imgElement = document.createElement('img');
+        imgElement.src = `http://localhost:8080${data.imageUrl}`;
+        imgElement.classList.add('method-image');
+        imgElement.alt = 'Method Image';
+        imgElement.style.maxWidth = '250px';
+
+        container.appendChild(imgElement);
+      }
 
       let exampleElement = document.createElement('p');
       exampleElement.classList.add('method-example');
-      exampleElement.innerHTML = `<strong>Пример:</strong> ${data.example}`;
+      exampleElement.innerHTML = `${data.example}`;
+      container.appendChild(exampleElement);
 
-      container.querySelector('.method-name').innerText = data.name;
-      container.querySelector('.method-description').innerHTML =
-        descriptionElement.innerHTML;
-      container.querySelector('.method-example').innerHTML =
-        exampleElement.innerHTML;
+      MathJax.typesetPromise([exampleElement]).catch((err) => console.error('Ошибка при рендеринге формул:', err));
 
       if (groupId === '1') {
-        createFunctionInput(container.querySelector('#input-container'));
+        let inputContainer = document.getElementById('input-container');
+        createFunctionInput(inputContainer);
       }
     })
     .catch((error) => {
@@ -141,7 +150,7 @@ function displayResult(root) {
 
   let resultElement = document.createElement('p');
   resultElement.classList.add('result');
-  resultElement.innerHTML = `<strong>Решение:</strong> ${root.toFixed(15)}`; // Отображаем число с 6 знаками после запятой
+  resultElement.innerHTML = `<strong>Решение:</strong> ${root.toFixed(15)}`;
 
   container.appendChild(resultElement);
 
