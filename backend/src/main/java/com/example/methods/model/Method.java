@@ -27,4 +27,7 @@ public class Method {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String example;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }

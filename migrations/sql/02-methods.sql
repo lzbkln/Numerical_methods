@@ -10,5 +10,6 @@ CREATE TABLE methods (
     problem_id BIGINT REFERENCES problems(id),
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    example TEXT NOT NULL
+    example TEXT NOT NULL,
+    image_url VARCHAR(255)
 );

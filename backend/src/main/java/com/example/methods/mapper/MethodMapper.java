@@ -13,6 +13,7 @@ public class MethodMapper {
                 .name(method.getName())
                 .description(method.getDescription())
                 .example(method.getExample())
+                .imageUrl(method.getImageUrl())
                 .build();
     }
 }

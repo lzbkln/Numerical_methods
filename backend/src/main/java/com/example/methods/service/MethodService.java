@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,9 +29,9 @@ public class MethodService {
     private final NoFixedChordsMethodService noFixedChordsMethodService;
     private final ProblemRepository problemRepository;
 
-    public DtoMethod getMethodByName(String name) {
-        Method method = methodRepository.findByName(name);
-        return methodMapper.mapToDto(method);
+    public DtoMethod getMethodById(Long id) {
+        Optional<Method> method = methodRepository.findById(id);
+        return methodMapper.mapToDto(method.get());
     }
 
     public List<DtoMethod> getAllMethodsByProblemName(String name) {

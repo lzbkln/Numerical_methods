@@ -23,14 +23,9 @@ public class SolveController {
         return problemService.getAllProblems();
     }
 
-//    @GetMapping("/problems/{problemName}/methods")
-//    public List<DtoMethod> getAllMethodsByProblemName(@PathVariable String problemName) {
-//        return methodService.getAllMethodsByProblemName(problemName);
-//    }
-
-    @GetMapping("/methods/{methodName}")
-    public DtoMethod getAllAboutMethod(@PathVariable String methodName) {
-        return methodService.getMethodByName(methodName);
+    @GetMapping("/methods/{methodId}")
+    public DtoMethod getAllAboutMethod(@PathVariable Long methodId) {
+        return methodService.getMethodById(methodId);
     }
 
     @PostMapping("/nonlinear_equation")

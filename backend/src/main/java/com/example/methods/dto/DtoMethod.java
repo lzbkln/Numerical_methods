@@ -13,4 +13,5 @@ public class DtoMethod {
     private String name;
     private String description;
     private String example;
+    private String imageUrl;
 }
