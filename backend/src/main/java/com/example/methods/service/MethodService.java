@@ -45,13 +45,23 @@ public class MethodService {
     public SolveProblemResponse solveProblem(SolveProblemRequest solveProblemRequest) {
         SolveProblem solveProblem;
         switch (solveProblemRequest.getMethodName()) {
-            case "Метод дихотомии" -> solveProblem = bisectionMethodService;
-            case "Метод неподвижных хорд" -> solveProblem = fixedChordsMethodService;
-            case "Метод Ньютона" -> solveProblem = newtonMethodService;
-            case "Метод подвижных хорд" -> solveProblem = noFixedChordsMethodService;
-            default -> throw new IllegalArgumentException();
+            case "Метод дихотомии":
+                solveProblem = bisectionMethodService;
+                break;
+            case "Метод неподвижных хорд":
+                solveProblem = fixedChordsMethodService;
+                break;
+            case "Метод Ньютона":
+                solveProblem = newtonMethodService;
+                break;
+            case "Метод подвижных хорд":
+                solveProblem = noFixedChordsMethodService;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown method: " + solveProblemRequest.getMethodName());
         }
-        return solveProblemResponseMapper.mapToDto(solveProblem.solveProblem(solveProblemRequest.getUserFunction(), solveProblemRequest.getA(),
-                solveProblemRequest.getB(), solveProblemRequest.getEpsilon()));
+        String solutionMessage = solveProblem.solveProblem(solveProblemRequest.getUserFunction(), solveProblemRequest.getA(),
+                solveProblemRequest.getB(), solveProblemRequest.getEpsilon());
+        return solveProblemResponseMapper.mapToDto(solutionMessage);
     }
 }

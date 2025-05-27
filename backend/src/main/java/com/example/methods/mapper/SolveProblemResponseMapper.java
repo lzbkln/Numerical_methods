@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SolveProblemResponseMapper {
-    public SolveProblemResponse mapToDto(double root) {
+    public SolveProblemResponse mapToDto(String solutionMessage) {
         return SolveProblemResponse.builder()
-                .root(root)
+                .solutionMessage(solutionMessage)
                 .build();
     }
 }

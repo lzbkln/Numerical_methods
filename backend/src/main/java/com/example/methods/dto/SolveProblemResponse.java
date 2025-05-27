@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 @Builder
 public class SolveProblemResponse {
-    private double root;
+    private String solutionMessage;
 }

@@ -2,6 +2,7 @@ package com.example.methods.service.equations;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.matheclipse.core.expression.S;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,7 +22,7 @@ public class MethodsServiceTest {
         double epsilon = 0.00001;
         double a = 1;
         double b = 2;
-        double result = bisectionMethodService.solveProblem(equation, a, b, epsilon);
+        String result = bisectionMethodService.solveProblem(equation, a, b, epsilon);
 
         String resultString = String.format("%.5f", result);
         assertEquals("1,27277", resultString);
@@ -48,7 +49,7 @@ public class MethodsServiceTest {
         double epsilon = 0.00001;
         double a = 1;
         double b = 2;
-        double result = newtonMethodService.solveProblem(equation, a, b, epsilon);
+        String result = newtonMethodService.solveProblem(equation, a, b, epsilon);
 
         String resultString = String.format("%.5f", result);
         assertEquals("1,27277", resultString);
@@ -76,7 +77,7 @@ public class MethodsServiceTest {
         double epsilon = 0.00001;
         double a = 1;
         double b = 2;
-        double result = fixedChordsMethodService.solveProblem(equation, a, b, epsilon);
+        String result = fixedChordsMethodService.solveProblem(equation, a, b, epsilon);
 
         String resultString = String.format("%.5f", result);
         assertEquals("1,27277", resultString);
@@ -105,7 +106,7 @@ public class MethodsServiceTest {
         double epsilon = 0.00001;
         double a = 1;
         double b = 2;
-        double result = noFixedChordsMethodService.solveProblem(equation, a, b, epsilon);
+        String result = noFixedChordsMethodService.solveProblem(equation, a, b, epsilon);
 
         String resultString = String.format("%.5f", result);
         assertEquals("1,27277", resultString);
