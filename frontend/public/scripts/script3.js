@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let methodId = url.at(-1);
   let groupId = url.at(-2);
 
-  fetch(`http://localhost:8080/numerical_methods/methods/${methodId}`)
+  fetch(`http://51.250.110.159:8080/numerical_methods/methods/${methodId}`)
     .then((response) => response.json())
     .then((data) => {
       let container = document.getElementById('data-container');
@@ -122,7 +122,7 @@ function solveNonlinearEquation() {
     epsilon: parseFloat(formData.get('epsilon')),
   };
 
-  fetch('http://localhost:8080/numerical_methods/nonlinear_equation', {
+  fetch('http://51.250.110.159:8080/numerical_methods/nonlinear_equation', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
