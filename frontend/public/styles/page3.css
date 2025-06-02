@@ -104,14 +104,14 @@ main {
     text-indent: 2em;
 }
 
-.result-container strong {
-    color: #353434;
-}
-
 .method-image {
     float: right;
     margin: 10px;
     max-width: 250px;
+}
+
+.result-container strong {
+    color: #353434;
 }
 
 .input-container {
@@ -156,14 +156,15 @@ main {
     padding: 10px;
     border: 1px solid #c3b0ca;
     border-radius: 4px;
-    text-align: center;
+    text-align: justify;
+    line-height: 1.6;
     animation: fadeIn 0.5s ease-in-out;
     display: none;
 }
 
 .result-container p {
     margin: 0;
-    font-size: 1.2em;
+    font-size: 1.1em;
     color: #333;
 }
 

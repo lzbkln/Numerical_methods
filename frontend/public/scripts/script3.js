@@ -1,40 +1,28 @@
+//51.250.110.159
 document.addEventListener('DOMContentLoaded', function () {
   let url = window.location.href.split('/');
   let methodId = url.at(-1);
   let groupId = url.at(-2);
 
-  fetch(`http://51.250.110.159:8080/numerical_methods/methods/${methodId}`)
+  fetch(`http://localhost:8080/numerical_methods/methods/${methodId}`)
     .then((response) => response.json())
     .then((data) => {
-      let container = document.getElementById('data-container');
+      let nameElement = document.querySelector('.method-name');
+      let descriptionElement = document.querySelector('.method-description');
+      let exampleElement = document.querySelector('.method-example');
+      let imgElement = document.querySelector('.method-image');
 
-      let nameElement = document.createElement('h2');
-      nameElement.classList.add('method-name');
       nameElement.innerText = data.name;
+      descriptionElement.innerHTML = data.description;
+      exampleElement.innerHTML = data.example;
 
-      let descriptionElement = document.createElement('p');
-      descriptionElement.classList.add('method-description');
-      descriptionElement.innerHTML = `${data.description}`;
-
-      container.appendChild(nameElement);
-      container.appendChild(descriptionElement);
+      MathJax.typeset([exampleElement]);
 
       if (data.imageUrl) {
-        let imgElement = document.createElement('img');
         imgElement.src = `http://localhost:8080${data.imageUrl}`;
-        imgElement.classList.add('method-image');
         imgElement.alt = 'Method Image';
-        imgElement.style.maxWidth = '250px';
-
-        container.appendChild(imgElement);
+        imgElement.style.display = 'block';
       }
-
-      let exampleElement = document.createElement('p');
-      exampleElement.classList.add('method-example');
-      exampleElement.innerHTML = `${data.example}`;
-      container.appendChild(exampleElement);
-
-      MathJax.typesetPromise([exampleElement]).catch((err) => console.error('Ошибка при рендеринге формул:', err));
 
       if (groupId === '1') {
         let inputContainer = document.getElementById('input-container');
@@ -115,14 +103,14 @@ function solveNonlinearEquation() {
   let methodId = url.at(-1);
 
   let requestData = {
-    methodId: parseInt(methodId),
+    methodId: methodId,
     userFunction: formData.get('userFunction'),
     a: parseFloat(formData.get('a')),
     b: parseFloat(formData.get('b')),
     epsilon: parseFloat(formData.get('epsilon')),
   };
 
-  fetch('http://51.250.110.159:8080/numerical_methods/nonlinear_equation', {
+  fetch('http://localhost:8080/numerical_methods/nonlinear_equation', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -136,21 +124,24 @@ function solveNonlinearEquation() {
       return response.json();
     })
     .then((data) => {
-      displayResult(data.root);
+      displayResult(data.solutionMessage);
     })
     .catch((error) => {
       console.error('Ошибка:', error);
     });
 }
 
-function displayResult(root) {
+function displayResult(text) {
   let container = document.getElementById('result-container');
 
   container.innerHTML = '';
 
   let resultElement = document.createElement('p');
   resultElement.classList.add('result');
-  resultElement.innerHTML = `<strong>Решение:</strong> ${root.toFixed(15)}`;
+
+  let formattedText = text.replace(/\n/g, '<br>');
+
+  resultElement.innerHTML = `<strong>Решение:</strong> ${formattedText}`;
 
   container.appendChild(resultElement);
 
