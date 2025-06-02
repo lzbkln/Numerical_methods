@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SymbolicDifferentiationService {
-    // ВНИМАНИЕ: второй параметр должен быть (short), иначе ошибка компиляции!
     private final ExprEvaluator evaluator = new ExprEvaluator(false, (short) 100);
 
     public String getDerivativeFormula(String function, String variable) {

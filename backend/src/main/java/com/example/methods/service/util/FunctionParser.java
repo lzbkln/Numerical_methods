@@ -6,7 +6,7 @@ import org.matheclipse.core.interfaces.IExpr;
 import java.util.function.Function;
 
 public class FunctionParser {
-    private static final ExprEvaluator evaluator = new ExprEvaluator(false, (short)100);
+    private static final ExprEvaluator evaluator = new ExprEvaluator(false, (short) 100);
 
     public static Function<Double, Double> parseFunction(String expr) {
         final String functionBody = expr;

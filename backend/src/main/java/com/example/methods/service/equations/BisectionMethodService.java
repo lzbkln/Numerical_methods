@@ -3,8 +3,6 @@ package com.example.methods.service.equations;
 import com.example.methods.service.util.FunctionParser;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
 
 @Service

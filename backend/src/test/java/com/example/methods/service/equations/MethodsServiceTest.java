@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 //@SpringBootTest(classes = {MethodsApplication.class})
+//fix
 public class MethodsServiceTest {
     BisectionMethodService bisectionMethodService = new BisectionMethodService();
     NewtonMethodService newtonMethodService = new NewtonMethodService();

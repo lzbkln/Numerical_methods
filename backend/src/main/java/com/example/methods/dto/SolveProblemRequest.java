@@ -8,8 +8,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class SolveProblemRequest {
-    private String problemName;
-    private String methodName;
+    private String methodId;
     private String userFunction;
     private double a;
     private double b;
