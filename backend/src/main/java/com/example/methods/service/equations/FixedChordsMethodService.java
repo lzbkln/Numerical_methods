@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class FixedChordsMethodService extends SolveProblem {
+public class FixedChordsMethodService extends SolveEquationsProblem {
 
     @Autowired
     private SymbolicDifferentiationService symbolicDifferentiationService;
@@ -22,11 +22,11 @@ public class FixedChordsMethodService extends SolveProblem {
 
         String derivativeFormula = symbolicDifferentiationService.getDerivativeFormula(userFunction, "x");
         builder.appendMessage("Для выбора начальной точки найдем производную вашей функции:")
-                .appendMessage("→ Производная: " + derivativeFormula);
+                .appendMessage("→ Производная: \\( " + derivativeFormula + " \\)");
 
         String secondDerivativeFormula = symbolicDifferentiationService.getDerivativeFormula(derivativeFormula, "x");
         builder.appendMessage("Для выбора начальной точки также найдем вторую производную вашей функции:")
-                .appendMessage("→ Вторая производная: " + secondDerivativeFormula);
+                .appendMessage("→ Вторая производная: \\( " + secondDerivativeFormula + " \\)");
 
         Function<Double, Double> d2f = FunctionParser.parseFunction(secondDerivativeFormula);
 
@@ -51,16 +51,16 @@ public class FixedChordsMethodService extends SolveProblem {
         if (d2fa * fa >= 0) {
             x0 = a;
             x1 = b;
-            builder.appendMessage("f''(a) * f(a) >= 0, поэтому начальная точка x₀ = a = " + a);
+            builder.appendMessage("\\( f''(a) \\cdot f(a) \\geq 0 \\), поэтому начальная точка \\( x_0 = a = " + a + " \\)");
         } else if (d2fb * fb >= 0) {
             x0 = b;
             x1 = a;
-            builder.appendMessage("f''(b) * f(b) >= 0, поэтому начальная точка x₀ = b = " + b);
+            builder.appendMessage("\\( f''(b) \\cdot f(b) \\geq 0 \\), поэтому начальная точка \\( x_0 = b = " + b + " \\)");
         } else {
             throw new IllegalArgumentException("Невозможно определить начальные точки x0 и x1.");
         }
 
-        builder.appendMessage("Выбираем начальные точки: x₀ = " + x0 + ", x₁ = " + x1);
+        builder.appendMessage("Выбираем начальные точки: \\( x_0 = " + x0 + " \\), \\( x_1 = " + x1 + " \\)");
         return new double[]{x0, x1};
     }
 
@@ -77,12 +77,12 @@ public class FixedChordsMethodService extends SolveProblem {
 
             double x_new = x - fx * (x - x0) / (fx - fx0);
 
-            builder.appendMessage("Итерация " + (iter + 1) + ": x = " + String.format("%.8f", x) + ", f(x) = " + String.format("%.8f", fx))
-                    .appendMessage("  Вычисляем новую точку: x_new = x - f(x) * (x - x0) / (f(x) - f(x0)) = " + String.format("%.8f", x_new));
+            builder.appendMessage("Итерация " + (iter + 1) + ": \\( x_" + (iter + 1) + " = " + String.format("%.8f", x) + " \\), \\( f(x_" + (iter + 1) + ") = " + String.format("%.8f", fx) + " \\)")
+                    .appendMessage("  Вычисляем новую точку: \\( x_" + (iter + 2) + " = x_" + (iter + 1) + " - \\frac{f(x_" + (iter + 1) + ") \\cdot (x_" + (iter + 1) + " - x_0)}{f(x_" + (iter + 1) + ") - f(x_0)} = " + String.format("%.8f", x_new) + " \\)");
 
             if (Math.abs(x_new - x) < epsilon) {
                 builder.appendMessage("Достигнута нужная точность!")
-                        .appendMessage("Метод неподвижных хорд завершён успешно! Приближённый корень: x ≈ " + x_new);
+                        .appendMessage("Метод неподвижных хорд завершён успешно! Приближённый корень: \\( x \\approx " + x_new + " \\)");
                 converged = true;
                 break;
             }

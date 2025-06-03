@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class BisectionMethodService extends SolveProblem {
+public class BisectionMethodService extends SolveEquationsProblem {
 
     private static final int MAX_ITER = 100;
 
@@ -19,11 +19,11 @@ public class BisectionMethodService extends SolveProblem {
         double fb = f.apply(b);
 
         if (fa * fb > 0) {
-            return builder.setError("На отрезке [" + a + ", " + b + "] функция не меняет знак. Корня нет или их чётное количество.")
+            return builder.setError("На отрезке \\([" + a + ", " + b + "]\\) функция не меняет знак. Корня нет или их чётное количество.")
                     .build();
         }
 
-        builder.appendMessage("Стартуем метод дихотомии с интервалом [" + a + ", " + b + "] и точностью " + epsilon + ".");
+        builder.appendMessage("Стартуем метод дихотомии с интервалом \\([" + a + ", " + b + "]\\) и точностью " + epsilon + ".");
         int iter = 0;
         double mid = a;
         boolean found = false;
@@ -33,21 +33,21 @@ public class BisectionMethodService extends SolveProblem {
             double fmid = f.apply(mid);
 
             builder.appendMessage("Итерация " + (iter + 1) + ":")
-                    .appendMessage("  a = " + a + ", b = " + b + ", mid = " + mid)
-                    .appendMessage("  f(a) = " + fa + ", f(b) = " + fb + ", f(mid) = " + fmid);
+                    .appendMessage(" \\(a = " + a + ", b = " + b + ", mid = " + mid + "\\)")
+                    .appendMessage(" \\(f(a) = " + fa + ", f(b) = " + fb + ", f(mid) = " + fmid + "\\)");
 
             if (Math.abs((b - a) / 2) < epsilon) {
-                builder.appendMessage("(|(b - a) / 2| < epsilon). Корень найден!");
+                builder.appendMessage("\\(|(b - a) / 2| < epsilon\\). Корень найден!");
                 found = true;
                 break;
             }
 
             if (fa * fmid < 0) {
-                builder.appendMessage("  f(a) * f(mid) < 0 ⇒ корень между a и mid. Сдвигаем b к mid.");
+                builder.appendMessage("\\( f(a) \\cdot f(mid) < 0\\)⇒ корень между a и mid. Сдвигаем b к mid.");
                 b = mid;
                 fb = fmid;
             } else {
-                builder.appendMessage("  f(a) * f(mid) > 0 ⇒ корень между mid и b. Сдвигаем a к mid.");
+                builder.appendMessage("\\( f(a) \\cdot f(mid) > 0\\) ⇒ корень между mid и b. Сдвигаем a к mid.");
                 a = mid;
                 fa = fmid;
             }
@@ -55,7 +55,7 @@ public class BisectionMethodService extends SolveProblem {
         }
 
         builder.appendMessage("Метод завершён за " + (iter + (found ? 1 : 0)) + " шагов.")
-                .appendMessage("Приближённое значение корня: x ≈ " + mid);
+                .appendMessage("Приближённое значение корня: \\( x \\approx " + mid + " \\)");
 
         if (!found && iter >= MAX_ITER && (b - a) / 2 > epsilon) {
             builder.appendMessage("Внимание: за " + MAX_ITER + " шагов не удалось достичь нужной точности. Попробуйте задать отрезок поточнее.");

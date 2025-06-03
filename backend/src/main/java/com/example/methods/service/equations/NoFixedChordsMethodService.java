@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class NoFixedChordsMethodService extends SolveProblem {
+public class NoFixedChordsMethodService extends SolveEquationsProblem {
 
     @Autowired
     private SymbolicDifferentiationService symbolicDifferentiationService;
@@ -22,11 +22,11 @@ public class NoFixedChordsMethodService extends SolveProblem {
 
         String derivativeFormula = symbolicDifferentiationService.getDerivativeFormula(userFunction, "x");
         builder.appendMessage("Для выбора начальной точки найдем производную вашей функции:")
-                .appendMessage("→ Производная: " + derivativeFormula);
+                .appendMessage("→ Производная: \\( f'(x) = " + derivativeFormula + " \\)");
 
         String secondDerivativeFormula = symbolicDifferentiationService.getDerivativeFormula(derivativeFormula, "x");
         builder.appendMessage("Для выбора начальной точки также найдем вторую производную вашей функции:")
-                .appendMessage("→ Вторая производная: " + secondDerivativeFormula);
+                .appendMessage("→ Вторая производная: \\( f''(x) = " + secondDerivativeFormula + " \\)");
 
         Function<Double, Double> d2f = FunctionParser.parseFunction(secondDerivativeFormula);
 
@@ -53,16 +53,16 @@ public class NoFixedChordsMethodService extends SolveProblem {
         if (d2fa * fa >= 0) {
             x0 = a;
             x1 = b;
-            builder.appendMessage("f''(a) * f(a) >= 0, поэтому начальная точка x₀ = a = " + a);
+            builder.appendMessage("\\( f''(a) \\cdot f(a) \\geq 0 \\), поэтому начальная точка \\( x_0 = a = " + a + " \\)");
         } else if (d2fb * fb >= 0) {
             x0 = b;
             x1 = a;
-            builder.appendMessage("f''(b) * f(b) >= 0, поэтому начальная точка x₀ = b = " + b);
+            builder.appendMessage("\\( f''(b) \\cdot f(b) \\geq 0 \\), поэтому начальная точка \\( x_0 = b = " + b + " \\)");
         } else {
-            throw new IllegalArgumentException("Невозможно определить начальные точки x0 и x1.");
+            throw new IllegalArgumentException("Невозможно определить начальные точки \\( x_0 \\) и \\( x_1 \\).");
         }
 
-        builder.appendMessage("Выбираем начальные точки: x₀ = " + x0 + ", x₁ = " + x1);
+        builder.appendMessage("Выбираем начальные точки: \\( x_0 = " + x0 + " \\), \\( x_1 = " + x1 + " \\)");
         return new double[]{x0, x1};
     }
 
@@ -84,13 +84,13 @@ public class NoFixedChordsMethodService extends SolveProblem {
             double x_new = x1 - fx1 * (x1 - x0) / (fx1 - fx0);
 
             builder.appendMessage("Итерация " + (iter + 1) + ":")
-                    .appendMessage("  x0 = " + String.format("%.8f", x0) + ", x1 = " + String.format("%.8f", x1))
-                    .appendMessage("  f(x0) = " + String.format("%.8f", fx0) + ", f(x1) = " + String.format("%.8f", fx1))
-                    .appendMessage("  Новая точка: x_new = x1 - f(x1)*(x1-x0)/(f(x1)-f(x0)) = " + String.format("%.8f", x_new));
+                    .appendMessage("  \\( x_" + iter + " = " + String.format("%.8f", x0) + " \\), \\( x_" + (iter + 1) + " = " + String.format("%.8f", x1) + " \\)")
+                    .appendMessage("  \\( f(x_" + iter + ") = " + String.format("%.8f", fx0) + " \\), \\( f(x_" + (iter + 1) + ") = " + String.format("%.8f", fx1) + " \\)")
+                    .appendMessage("  Новая точка: \\( x_" + (iter + 2) + " = x_" + (iter + 1) + " - \\frac{f(x_" + (iter + 1) + ")(x_" + (iter + 1) + " - x_" + iter + ")}{f(x_" + (iter + 1) + ") - f(x_" + iter + ")} = " + String.format("%.8f", x_new) + " \\)");
 
             if (Math.abs(x_new - x1) < epsilon) {
                 builder.appendMessage("Достигнута нужная точность!")
-                        .appendMessage("Метод подвижных хорд завершён успешно! Приближённый корень: x ≈ " + x_new);
+                        .appendMessage("Метод подвижных хорд завершён успешно! Приближённый корень: \\( x \\approx " + x_new + " \\)");
                 converged = true;
                 break;
             }

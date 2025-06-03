@@ -10,6 +10,7 @@ import com.example.methods.model.Problem;
 import com.example.methods.repository.MethodRepository;
 import com.example.methods.repository.ProblemRepository;
 import com.example.methods.service.equations.*;
+import com.example.methods.service.equations.SolveEquationsProblem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,7 @@ public class MethodService {
     }
 
     public SolveProblemResponse solveProblem(SolveProblemRequest solveProblemRequest) {
-        SolveProblem solveProblem = switch (solveProblemRequest.getMethodId()) {
+        SolveEquationsProblem solveProblem = switch (solveProblemRequest.getMethodId()) {
             case "1" -> bisectionMethodService;
             case "2" -> fixedChordsMethodService;
             case "3" -> newtonMethodService;

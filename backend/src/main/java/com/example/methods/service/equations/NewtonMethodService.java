@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class NewtonMethodService extends SolveProblem {
+public class NewtonMethodService extends SolveEquationsProblem {
 
     @Autowired
     private SymbolicDifferentiationService symbolicDifferentiationService;
@@ -32,7 +32,7 @@ public class NewtonMethodService extends SolveProblem {
     private Function<Double, Double> getDerivativeFunction(String userFunction, SolutionMessageBuilder builder) {
         String derivativeFormula = symbolicDifferentiationService.getDerivativeFormula(userFunction, "x");
         builder.appendMessage("Для решения задачи методом Ньютона найдем производную вашей функции:")
-                .appendMessage("→ Производная: " + derivativeFormula);
+                .appendMessage("→ Производная: \\( " + derivativeFormula + " \\)");
         return FunctionParser.parseFunction(derivativeFormula);
     }
 
@@ -40,7 +40,7 @@ public class NewtonMethodService extends SolveProblem {
         String derivativeFormula = symbolicDifferentiationService.getDerivativeFormula(userFunction, "x");
         String secondDerivativeFormula = symbolicDifferentiationService.getDerivativeFormula(derivativeFormula, "x");
         builder.appendMessage("Для выбора начальной точки также возьмём вторую производную вашей функции:")
-                .appendMessage("→ Вторая производная: " + secondDerivativeFormula);
+                .appendMessage("→ Вторая производная: \\( " + secondDerivativeFormula + " \\)");
         return FunctionParser.parseFunction(secondDerivativeFormula);
     }
 
@@ -55,10 +55,10 @@ public class NewtonMethodService extends SolveProblem {
         double d2fb = d2f.apply(b);
 
         if (d2fa * fa >= 0) {
-            builder.appendMessage("f''(a) * f(a) >= 0, поэтому начальная точка x₀ = a = " + a);
+            builder.appendMessage("\\( f''(a) \\cdot f(a) \\geq 0 \\), поэтому начальная точка \\( x_0 = a = " + a + " \\)");
             return a;
         } else if (d2fb * fb >= 0) {
-            builder.appendMessage("f''(b) * f(b) >= 0, поэтому начальная точка x₀ = b = " + b);
+            builder.appendMessage("\\( f''(b) \\cdot f(b) \\geq 0 \\), поэтому начальная точка \\( x_0 = b = " + b + " \\)");
             return b;
         } else {
             throw new IllegalArgumentException("Невозможно определить начальную точку x0.");
@@ -84,15 +84,13 @@ public class NewtonMethodService extends SolveProblem {
             double x_new = x - fx / dfx;
             builder.appendMessage(
                     "Итерация " + i +
-                            ": Текущее значение x = " + String.format("%.8f", x) +
-                            ", f(x) = " + String.format("%.8f", fx) +
-                            ", f'(x) = " + String.format("%.8f", dfx) +
-                            ".\nВычисляем новое приближение: x_new = x - f(x)/f'(x) = " + String.format("%.8f", x_new)
+                            ": Текущее значение \\( x_" + (i - 1) + " = " + String.format("%.8f", x) + " \\), \\( f(x_" + (i - 1) + ") = " + String.format("%.8f", fx) + " \\), \\( f'(x_" + (i - 1) + ") = " + String.format("%.8f", dfx) + " \\)" +
+                            ".\nВычисляем новое приближение: \\( x_" + i + " = x_" + (i - 1) + " - \\frac{f(x_" + (i - 1) + ")}{f'(x_" + (i - 1) + ")} = " + String.format("%.8f", x_new) + " \\)"
             );
 
             if (Math.abs(x_new - x) < epsilon) {
                 builder.appendMessage("Достигнута нужная точность! Метод Ньютона успешно завершён!")
-                        .appendMessage("Ответ: x ≈ " + x_new);
+                        .appendMessage("Ответ: \\( x \\approx " + x_new + " \\)");
                 converged = true;
                 break;
             }
