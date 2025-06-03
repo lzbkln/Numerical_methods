@@ -1,7 +1,7 @@
 'use strict'
 
 document.addEventListener("DOMContentLoaded", function() {
-  fetch('http://localhost:8080/numerical_methods/problems').then(response => response.json()).then(data => {
+  fetch('http://51.250.110.159:8080/numerical_methods/problems').then(response => response.json()).then(data => {
       data.forEach(problem => {
         let newDiv = document.createElement("div");
         newDiv.classList.add("group");
