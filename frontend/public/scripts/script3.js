@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let methodId = url.at(-1);
   let groupId = url.at(-2);
 
-  fetch(`http://51.250.110.159:8080/numerical_methods/methods/${methodId}`)
+  fetch(`http://numerical-methods.ru/numerical_methods/methods/${methodId}`)
     .then((response) => response.json())
     .then((data) => {
       let nameElement = document.querySelector('.method-name');
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
       MathJax.typeset([exampleElement]);
 
       if (data.imageUrl) {
-        imgElement.src = `http://51.250.110.159:8080${data.imageUrl}`;
+        imgElement.src = `http://numerical-methods.ru${data.imageUrl}`;
         imgElement.alt = 'Method Image';
         imgElement.style.display = 'block';
       }
@@ -109,7 +109,7 @@ function solveNonlinearEquation() {
     epsilon: parseFloat(formData.get('epsilon')),
   };
 
-  fetch('http://51.250.110.159:8080/numerical_methods/nonlinear_equation', {
+  fetch('http://numerical-methods.ru/numerical_methods/nonlinear_equation', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
