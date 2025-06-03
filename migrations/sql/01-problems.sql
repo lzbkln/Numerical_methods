@@ -12,4 +12,4 @@ CREATE TABLE problems (
 );
 
 INSERT INTO problems (id, name, description)
-VALUES (1, 'Нелинейные уравнения', 'Описание нелинейных уравнений');
+VALUES ('Нелинейные уравнения', 'Описание нелинейных уравнений');
