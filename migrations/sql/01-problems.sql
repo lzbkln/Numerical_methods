@@ -2,7 +2,7 @@
 -- ****************************************************
 -- Create Table: problems
 -- Author: lzbkl
--- Date: 17/12/2024
+-- Date: 17/05/2025
 -- ****************************************************
 
 CREATE TABLE problems (
@@ -10,3 +10,6 @@ CREATE TABLE problems (
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL
 );
+
+INSERT INTO problems (id, name, description)
+VALUES (1, 'Нелинейные уравнения', 'Описание нелинейных уравнений');
