@@ -1,5 +1,6 @@
 package com.example.methods.service.equations;
 
+import com.example.methods.service.exceptions.NoRootFoundException;
 import com.example.methods.service.util.FunctionParser;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +20,10 @@ public class BisectionMethodService extends SolveEquationsProblem {
         double fb = f.apply(b);
 
         if (fa * fb > 0) {
-            return builder.setError("На отрезке \\([" + a + ", " + b + "]\\) функция не меняет знак. Корня нет или их чётное количество.")
-                    .build();
+            throw new NoRootFoundException("На интервале [" + a + ", " + b + "] функция не меняет знак. Похоже, что на этом отрезке нет корня, или их чётное число.");
         }
 
-        builder.appendMessage("Стартуем метод дихотомии с интервалом \\([" + a + ", " + b + "]\\) и точностью " + epsilon + ".");
+        builder.appendMessage("Стартуем метод дихотомии с интервалом \\([" + a + ", " + b + "]\\) и точностью \\(" + epsilon + "\\).");
         int iter = 0;
         double mid = a;
         boolean found = false;

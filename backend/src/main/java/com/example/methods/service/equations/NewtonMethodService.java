@@ -1,5 +1,7 @@
 package com.example.methods.service.equations;
 
+import com.example.methods.service.exceptions.InitialPointsNotDeterminedException;
+import com.example.methods.service.exceptions.NoRootFoundException;
 import com.example.methods.service.util.FunctionParser;
 import com.example.methods.service.util.SymbolicDifferentiationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,7 @@ public class NewtonMethodService extends SolveEquationsProblem {
         double fa = f.apply(a);
         double fb = f.apply(b);
         if (fa * fb >= 0) {
-            throw new IllegalArgumentException("Корня в заданном отрезке нет.");
+            throw new NoRootFoundException("На интервале [" + a + ", " + b + "] функция не меняет знак. Похоже, что на этом отрезке нет корня, или их чётное число.");
         }
 
         double d2fa = d2f.apply(a);
@@ -61,7 +63,7 @@ public class NewtonMethodService extends SolveEquationsProblem {
             builder.appendMessage("\\( f''(b) \\cdot f(b) \\geq 0 \\), поэтому начальная точка \\( x_0 = b = " + b + " \\)");
             return b;
         } else {
-            throw new IllegalArgumentException("Невозможно определить начальную точку x0.");
+            throw new InitialPointsNotDeterminedException("Невозможно определить начальную точку x0.");
         }
     }
 

@@ -13,4 +13,5 @@ public class SolveProblemRequest {
     private double a;
     private double b;
     private double epsilon;
+    private double m;
 }

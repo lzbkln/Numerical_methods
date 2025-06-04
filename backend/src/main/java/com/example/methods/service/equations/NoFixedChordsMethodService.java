@@ -1,5 +1,7 @@
 package com.example.methods.service.equations;
 
+import com.example.methods.service.exceptions.InitialPointsNotDeterminedException;
+import com.example.methods.service.exceptions.NoRootFoundException;
 import com.example.methods.service.util.FunctionParser;
 import com.example.methods.service.util.SymbolicDifferentiationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,7 @@ public class NoFixedChordsMethodService extends SolveEquationsProblem {
         double fa = f.apply(a);
         double fb = f.apply(b);
         if (fa * fb > 0) {
-            throw new IllegalArgumentException("На интервале [" + a + ", " + b + "] функция не меняет знак. Похоже, что на этом отрезке нет корня, или их чётное число.");
+            throw new NoRootFoundException("На интервале [" + a + ", " + b + "] функция не меняет знак. Похоже, что на этом отрезке нет корня, или их чётное число.");
         }
 
         double[] initialPoints = determineInitialPoints(f, d2f, a, b, builder);
@@ -59,7 +61,7 @@ public class NoFixedChordsMethodService extends SolveEquationsProblem {
             x1 = a;
             builder.appendMessage("\\( f''(b) \\cdot f(b) \\geq 0 \\), поэтому начальная точка \\( x_0 = b = " + b + " \\)");
         } else {
-            throw new IllegalArgumentException("Невозможно определить начальные точки \\( x_0 \\) и \\( x_1 \\).");
+            throw new InitialPointsNotDeterminedException("Невозможно определить начальные точки x0 и x1.");
         }
 
         builder.appendMessage("Выбираем начальные точки: \\( x_0 = " + x0 + " \\), \\( x_1 = " + x1 + " \\)");
