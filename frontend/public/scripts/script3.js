@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (groupId === '1') {
         let inputContainer = document.getElementById('input-container');
+        createRulesSection(inputContainer); // Создаем секцию с правилами
         createFunctionInput(inputContainer);
       }
     })
@@ -32,6 +33,147 @@ document.addEventListener('DOMContentLoaded', function () {
       console.error('Ошибка при загрузке данных:', error);
     });
 });
+
+function createRulesSection(container) {
+  let rulesSection = document.createElement('details');
+  let summary = document.createElement('summary');
+  summary.innerText = 'Правила ввода функций';
+  rulesSection.appendChild(summary);
+
+  let rulesContent = document.createElement('div');
+  rulesContent.className = 'content';
+  rulesContent.innerHTML = `
+                <div class="section">
+                    <h3>1. Операции и их приоритет</h3>
+                    <table>
+                        <tr>
+                            <th>Операция</th>
+                            <th>Как писать</th>
+                            <th>Примеры</th>
+                        </tr>
+                        <tr>
+                            <td>Сложение</td>
+                            <td>+</td>
+                            <td>x + 2</td>
+                        </tr>
+                        <tr>
+                            <td>Вычитание</td>
+                            <td>-</td>
+                            <td>x - 5</td>
+                        </tr>
+                        <tr>
+                            <td>Умножение</td>
+                            <td>* (всегда указывать!)</td>
+                            <td>2 * x, x * (x + 1)</td>
+                        </tr>
+                        <tr>
+                            <td>Деление</td>
+                            <td>/</td>
+                            <td>(x^2 + 1) / (x - 2)</td>
+                        </tr>
+                        <tr>
+                            <td>Степень</td>
+                            <td>^</td>
+                            <td>x^2, x^(1/2)</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="section">
+                    <h3>2. Функции</h3>
+                    <table>
+                        <tr>
+                            <th>Название</th>
+                            <th>Как писать</th>
+                            <th>Пример</th>
+                        </tr>
+                        <tr>
+                            <td>Квадратный корень</td>
+                            <td>sqrt(x)</td>
+                            <td>sqrt(x + 1)</td>
+                        </tr>
+                        <tr>
+                            <td>Натуральный логарифм</td>
+                            <td>log(x) или ln(x)</td>
+                            <td>log(x), ln(x)</td>
+                        </tr>
+                        <tr>
+                            <td>Десятичный логарифм</td>
+                            <td>log10(x)</td>
+                            <td>log10(x)</td>
+                        </tr>
+                        <tr>
+                            <td>Экспонента</td>
+                            <td>exp(x)</td>
+                            <td>exp(x) = e^x</td>
+                        </tr>
+                        <tr>
+                            <td>Синус / косинус / тангенс</td>
+                            <td>sin(x), cos(x), tan(x)</td>
+                            <td>sin(x) + cos(x)</td>
+                        </tr>
+                        <tr>
+                            <td>Абсолютное значение</td>
+                            <td>abs(x)</td>
+                            <td>abs(x - 3)</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="section">
+                    <h3>3. Типичные ошибки, которых избегаем</h3>
+                    <table>
+                        <tr>
+                            <th>Неправильно</th>
+                            <th>Почему?</th>
+                            <th>Правильно</th>
+                        </tr>
+                        <tr>
+                            <td>2x</td>
+                            <td>Неявное умножение — не распарсится</td>
+                            <td>2 * x</td>
+                        </tr>
+                        <tr>
+                            <td>x(x+1)</td>
+                            <td>То же самое</td>
+                            <td>x * (x + 1)</td>
+                        </tr>
+                        <tr>
+                            <td>x^1/2</td>
+                            <td>Это x^1 делить на 2</td>
+                            <td>x^(1/2)</td>
+                        </tr>
+                        <tr>
+                            <td>-x^2</td>
+                            <td>Это -(x^2), а не (-x)^2</td>
+                            <td>(-x)^2, если это имелось</td>
+                        </tr>
+                        <tr>
+                            <td>sin x</td>
+                            <td>Аргумент всегда в скобках</td>
+                            <td>sin(x)</td>
+                        </tr>
+                        <tr>
+                            <td>sqrt x+1</td>
+                            <td>Нужно скобки</td>
+                            <td>sqrt(x + 1)</td>
+                        </tr>
+                    </table>
+                </div>
+            `;
+
+  rulesSection.appendChild(rulesContent);
+  container.appendChild(rulesSection);
+
+  const details = container.querySelector('details');
+  const content = details.querySelector('.content');
+
+  details.addEventListener('toggle', function () {
+    if (details.open) {
+      content.style.maxHeight = content.scrollHeight + 'px';
+    } else {
+      content.style.maxHeight = '0';
+    }
+  });
+}
 
 function createFunctionInput(container) {
   let url = window.location.href.split('/');
@@ -115,7 +257,7 @@ function createFunctionInput(container) {
 
     let note = document.createElement('small');
     note.innerText =
-      'Если оценка неизвестна, будет использовано эвристическое условие.';
+      'Если оценка неизвестна, оставьте поле незаполненным.\nБудет использовано эвристическое условие.';
     note.style.display = 'block';
     note.style.color = 'gray';
 

@@ -168,6 +168,71 @@ main {
     color: #333;
 }
 
+h1, h2, h3 {
+    color: #444;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #8d7d93;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+details {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+summary {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+    background-color: #817187;
+    color: white;
+    border-radius: 4px;
+}
+
+.content {
+    padding: 10px;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease;
+}
+
+details[open] .content {
+    max-height: 1000px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
 /* Подвал */
 footer {
     width: 100%;
