@@ -3,7 +3,7 @@ package com.example.methods.service.equations;
 import org.springframework.stereotype.Component;
 
 @Component
-abstract public class SolveEquationsProblem {
+public abstract class SolveEquationsProblem {
 
     public static class SolutionMessageBuilder {
         private final StringBuilder messageBuilder = new StringBuilder();
@@ -29,5 +29,9 @@ abstract public class SolveEquationsProblem {
         }
     }
 
-    abstract public String solveProblem(String userFunction, double a, double b, double epsilon);
+    abstract public String solveProblem(String userFunction, double a, double b, double epsilon, Double m);
+
+    public String solveProblem(String userFunction, double a, double b, double epsilon) {
+        return solveProblem(userFunction, a, b, epsilon, null);
+    }
 }

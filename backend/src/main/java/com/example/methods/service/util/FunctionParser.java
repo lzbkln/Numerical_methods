@@ -1,6 +1,8 @@
 package com.example.methods.service.util;
 
+import com.example.methods.service.exceptions.InvalidExpressionException;
 import org.matheclipse.core.eval.ExprEvaluator;
+import org.matheclipse.core.eval.exception.ArgumentTypeException;
 import org.matheclipse.core.interfaces.IExpr;
 
 import java.util.function.Function;
@@ -13,8 +15,12 @@ public class FunctionParser {
         return x -> {
             String xValStr = Double.toString(x);
             String exprWithX = functionBody.replaceAll("\\bx\\b", "(" + xValStr + ")");
-            IExpr result = evaluator.evaluate(exprWithX);
-            return ((Number) result.evalDouble()).doubleValue();
+            try {
+                IExpr result = evaluator.evaluate(exprWithX);
+                return ((Number) result.evalDouble()).doubleValue();
+            } catch (ArgumentTypeException e) {
+                throw new InvalidExpressionException("Данная функция введена некорректно, смотрите пример ввода!");
+            }
         };
     }
 }

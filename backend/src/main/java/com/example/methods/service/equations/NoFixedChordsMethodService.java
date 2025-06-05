@@ -18,7 +18,7 @@ public class NoFixedChordsMethodService extends SolveEquationsProblem {
     private static final int MAX_ITER = 100;
 
     @Override
-    public String solveProblem(String userFunction, double a, double b, double epsilon) {
+    public String solveProblem(String userFunction, double a, double b, double epsilon, Double m) {
         Function<Double, Double> f = FunctionParser.parseFunction(userFunction);
         SolutionMessageBuilder builder = new SolutionMessageBuilder();
 
@@ -35,17 +35,25 @@ public class NoFixedChordsMethodService extends SolveEquationsProblem {
         double fa = f.apply(a);
         double fb = f.apply(b);
         if (fa * fb > 0) {
-            throw new NoRootFoundException("На интервале [" + a + ", " + b + "] функция не меняет знак. Похоже, что на этом отрезке нет корня, или их чётное число.");
+            throw new NoRootFoundException(
+                    "На интервале [" + a + ", " + b + "] функция не меняет знак. " +
+                            "Похоже, что на этом отрезке нет корня, или их чётное число."
+            );
         }
 
         double[] initialPoints = determineInitialPoints(f, d2f, a, b, builder);
         double x0 = initialPoints[0];
         double x1 = initialPoints[1];
 
-        return performNoFixedChordsIterations(f, x0, x1, epsilon, builder);
+        return performNoFixedChordsIterations(f, x0, x1, epsilon, m, builder);
     }
 
-    private double[] determineInitialPoints(Function<Double, Double> f, Function<Double, Double> d2f, double a, double b, SolutionMessageBuilder builder) {
+    private double[] determineInitialPoints(
+            Function<Double, Double> f,
+            Function<Double, Double> d2f,
+            double a, double b,
+            SolutionMessageBuilder builder
+    ) {
         double fa = f.apply(a);
         double fb = f.apply(b);
         double d2fa = d2f.apply(a);
@@ -68,7 +76,14 @@ public class NoFixedChordsMethodService extends SolveEquationsProblem {
         return new double[]{x0, x1};
     }
 
-    private String performNoFixedChordsIterations(Function<Double, Double> f, double x0, double x1, double epsilon, SolutionMessageBuilder builder) {
+    private String performNoFixedChordsIterations(
+            Function<Double, Double> f,
+            double x0,
+            double x1,
+            double epsilon,
+            Double m,
+            SolutionMessageBuilder builder
+    ) {
         boolean converged = false;
 
         builder.appendMessage("Запускаем метод подвижных хорд.");
@@ -88,11 +103,11 @@ public class NoFixedChordsMethodService extends SolveEquationsProblem {
             builder.appendMessage("Итерация " + (iter + 1) + ":")
                     .appendMessage("  \\( x_" + iter + " = " + String.format("%.8f", x0) + " \\), \\( x_" + (iter + 1) + " = " + String.format("%.8f", x1) + " \\)")
                     .appendMessage("  \\( f(x_" + iter + ") = " + String.format("%.8f", fx0) + " \\), \\( f(x_" + (iter + 1) + ") = " + String.format("%.8f", fx1) + " \\)")
-                    .appendMessage("  Новая точка: \\( x_" + (iter + 2) + " = x_" + (iter + 1) + " - \\frac{f(x_" + (iter + 1) + ")(x_" + (iter + 1) + " - x_" + iter + ")}{f(x_" + (iter + 1) + ") - f(x_" + iter + ")} = " + String.format("%.8f", x_new) + " \\)");
+                    .appendMessage("  Новая точка: \\( x_" + (iter + 2) + " = x_" + (iter + 1) +
+                            " - \\frac{f(x_" + (iter + 1) + ")(x_" + (iter + 1) + " - x_" + iter + ")}" +
+                            "{f(x_" + (iter + 1) + ") - f(x_" + iter + ")} = " + String.format("%.8f", x_new) + " \\)");
 
-            if (Math.abs(x_new - x1) < epsilon) {
-                builder.appendMessage("Достигнута нужная точность!")
-                        .appendMessage("Метод подвижных хорд завершён успешно! Приближённый корень: \\( x \\approx " + x_new + " \\)");
+            if (checkStoppingCondition(f, x_new, x1, epsilon, m, builder, iter)) {
                 converged = true;
                 break;
             }
@@ -103,9 +118,50 @@ public class NoFixedChordsMethodService extends SolveEquationsProblem {
         }
 
         if (!converged) {
-            builder.appendMessage("Внимание: за " + MAX_ITER + " шагов не удалось достичь нужной точности. Возможно, стоит изменить интервал или увеличить MAX_ITER.");
+            builder.appendMessage("К сожалению, метод подвижных хорд не смог найти приближенный корень на данном отрезке " +
+                            "за " + MAX_ITER + " шагов.")
+                    .appendMessage("Возможно, стоит попробовать уточнить отрезок.");
         }
 
         return builder.build();
     }
+
+    private boolean checkStoppingCondition(
+            Function<Double, Double> f,
+            double xNew,
+            double x1,
+            double epsilon,
+            Double m,
+            SolutionMessageBuilder builder,
+            int iter
+    ) {
+        if (m != null && m > 0) {
+            double fAtXnew = f.apply(xNew);
+            builder.appendMessage(
+                    "Проверяем критерий остановки: \\( \\frac{|f(x_" + (iter + 2) + ")|}{m} = \\frac{" +
+                            String.format("%.8f", Math.abs(fAtXnew)) + "}{" + m +
+                            "} = " + String.format("%.8f", Math.abs(fAtXnew) / m) + " \\)"
+            );
+            if (Math.abs(fAtXnew) / m < epsilon) {
+                builder.appendMessage("Условие \\( \\frac{|f(x_" + (iter + 2) + ")|}{m} < \\varepsilon \\) выполнено.")
+                        .appendMessage("Метод неподвижных хорд завершён успешно! Приближённый корень: \\( x \\approx " +
+                                String.format("%.8f", xNew) + " \\)");
+                return true;
+            }
+        } else {
+            if (Math.abs(xNew - x1) < epsilon) {
+                builder.appendMessage(
+                        "Условие \\(|x" + (iter + 2) + " - x" + (iter + 1) + "| < \\varepsilon \\) выполнено. \\(|" +
+                                String.format("%.8f", xNew - x1) + "| < \\varepsilon \\)"
+                ).appendMessage(
+                        "Метод неподвижных хорд завершён успешно! Приближённый корень: \\( x \\approx " +
+                                String.format("%.8f", xNew) + " \\)"
+                );
+                return true;
+            }
+        }
+        return false;
+    }
 }
+
+

@@ -12,6 +12,11 @@ public class BisectionMethodService extends SolveEquationsProblem {
     private static final int MAX_ITER = 100;
 
     @Override
+    public String solveProblem(String userFunction, double a, double b, double epsilon, Double m) {
+        return solveProblem(userFunction, a, b, epsilon);
+    }
+
+    @Override
     public String solveProblem(String userFunction, double a, double b, double epsilon) {
         Function<Double, Double> f = FunctionParser.parseFunction(userFunction);
         SolutionMessageBuilder builder = new SolutionMessageBuilder();

@@ -10,7 +10,6 @@ import com.example.methods.model.Problem;
 import com.example.methods.repository.MethodRepository;
 import com.example.methods.repository.ProblemRepository;
 import com.example.methods.service.equations.*;
-import com.example.methods.service.equations.SolveEquationsProblem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,8 +50,15 @@ public class MethodService {
             case "4" -> noFixedChordsMethodService;
             default -> throw new IllegalArgumentException("Unknown method: " + solveProblemRequest.getMethodId());
         };
-        String solutionMessage = solveProblem.solveProblem(solveProblemRequest.getUserFunction(), solveProblemRequest.getA(),
-                solveProblemRequest.getB(), solveProblemRequest.getEpsilon());
+
+        String solutionMessage = solveProblem.solveProblem(
+                solveProblemRequest.getUserFunction(),
+                solveProblemRequest.getA(),
+                solveProblemRequest.getB(),
+                solveProblemRequest.getEpsilon(),
+                solveProblemRequest.getM()
+        );
+
         return solveProblemResponseMapper.mapToDto(solutionMessage);
     }
 }
