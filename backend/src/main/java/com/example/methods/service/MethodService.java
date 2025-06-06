@@ -1,6 +1,7 @@
 package com.example.methods.service;
 
 import com.example.methods.dto.DtoMethod;
+import com.example.methods.dto.InterpolationRequest;
 import com.example.methods.dto.SolveProblemRequest;
 import com.example.methods.dto.SolveProblemResponse;
 import com.example.methods.mapper.MethodMapper;
@@ -10,10 +11,15 @@ import com.example.methods.model.Problem;
 import com.example.methods.repository.MethodRepository;
 import com.example.methods.repository.ProblemRepository;
 import com.example.methods.service.equations.*;
+import com.example.methods.service.interpolation.HermiteInterpolationService;
+import com.example.methods.service.interpolation.LagrangeInterpolationService;
+import com.example.methods.service.interpolation.NewtonInterpolationService;
+import com.example.methods.service.interpolation.SolveInterpolationProblem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,6 +34,9 @@ public class MethodService {
     private final NewtonMethodService newtonMethodService;
     private final NoFixedChordsMethodService noFixedChordsMethodService;
     private final ProblemRepository problemRepository;
+    private final LagrangeInterpolationService lagrangeInterpolationService;
+    private final NewtonInterpolationService newtonInterpolationService;
+    private final HermiteInterpolationService hermiteInterpolationService;
 
     public DtoMethod getMethodById(Long id) {
         Optional<Method> method = methodRepository.findById(id);
@@ -42,7 +51,7 @@ public class MethodService {
                 .collect(Collectors.toList());
     }
 
-    public SolveProblemResponse solveProblem(SolveProblemRequest solveProblemRequest) {
+    public SolveProblemResponse solveProblemEquations(SolveProblemRequest solveProblemRequest) {
         SolveEquationsProblem solveProblem = switch (solveProblemRequest.getMethodId()) {
             case "1" -> bisectionMethodService;
             case "2" -> fixedChordsMethodService;
@@ -60,5 +69,29 @@ public class MethodService {
         );
 
         return solveProblemResponseMapper.mapToDto(solutionMessage);
+    }
+
+    public SolveProblemResponse solveProblemInterpolation(InterpolationRequest interpolationRequest) {
+        if (Objects.equals(interpolationRequest.getMethodId(), "8")) {
+            String solutionMessage = hermiteInterpolationService.solveInterpolationProblem(
+                    interpolationRequest.getXValues(),
+                    interpolationRequest.getFxValues(),
+                    interpolationRequest.getMultiplicities(),
+                    interpolationRequest.getDerivatives()
+            );
+            return solveProblemResponseMapper.mapToDto(solutionMessage);
+        } else {
+            SolveInterpolationProblem solveProblem = switch (interpolationRequest.getMethodId()) {
+                case "6" -> lagrangeInterpolationService;
+                case "7" -> newtonInterpolationService;
+                default -> throw new IllegalArgumentException("Unknown method: " + interpolationRequest.getMethodId());
+            };
+            String solutionMessage = solveProblem.solveInterpolationProblem(
+                    interpolationRequest.getXValues(),
+                    interpolationRequest.getFxValues(),
+                    interpolationRequest.getInterpolationPoints()
+            );
+            return solveProblemResponseMapper.mapToDto(solutionMessage);
+        }
     }
 }

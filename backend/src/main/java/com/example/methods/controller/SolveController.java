@@ -1,9 +1,6 @@
 package com.example.methods.controller;
 
-import com.example.methods.dto.DtoMethod;
-import com.example.methods.dto.DtoProblem;
-import com.example.methods.dto.SolveProblemRequest;
-import com.example.methods.dto.SolveProblemResponse;
+import com.example.methods.dto.*;
 import com.example.methods.service.MethodService;
 import com.example.methods.service.ProblemService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +27,11 @@ public class SolveController {
 
     @PostMapping("/nonlinear_equation")
     public SolveProblemResponse solveNonlinearEquation(@RequestBody SolveProblemRequest request) {
-        return methodService.solveProblem(request);
+        return methodService.solveProblemEquations(request);
+    }
+
+    @PostMapping("/interpolation")
+    public SolveProblemResponse lagrangeInterpolation(@RequestBody InterpolationRequest request) {
+        return methodService.solveProblemInterpolation(request);
     }
 }

@@ -22,4 +22,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleInvalidExpressionException(InvalidExpressionException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
+
+    @ExceptionHandler(InvalidInterpolationDataException.class)
+    public ResponseEntity<String> handleInvalidInterpolationDataException(InvalidInterpolationDataException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
 }
