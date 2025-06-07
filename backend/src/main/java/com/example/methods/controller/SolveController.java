@@ -31,7 +31,12 @@ public class SolveController {
     }
 
     @PostMapping("/interpolation")
-    public SolveProblemResponse lagrangeInterpolation(@RequestBody InterpolationRequest request) {
+    public SolveProblemResponse interpolation(@RequestBody InterpolationRequest request) {
         return methodService.solveProblemInterpolation(request);
+    }
+
+    @PostMapping("/hermit_interpolation")
+    public SolveProblemResponse interpolate(@RequestBody HermiteInterpolationRequest requestDto) {
+        return methodService.solveProblemHermitInterpolation(requestDto);
     }
 }

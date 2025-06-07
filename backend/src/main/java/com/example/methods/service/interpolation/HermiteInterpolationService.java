@@ -8,81 +8,95 @@ import java.util.List;
 @Service
 public class HermiteInterpolationService {
 
-    public String solveInterpolationProblem(List<Double> xValues, List<Double> fxValues, List<Integer> multiplicities, List<List<Double>> derivativesList) {
-        StringBuilder builder = new StringBuilder();
+    public String solveInterpolationProblem(double[] nodes, int[] multiplicities, double[] fValues, List<List<Double>> derivatives) {
+        StringBuilder output = new StringBuilder();
 
-        int n = xValues.size();
+        List<Double> nodesMulti = new ArrayList<>();
+        List<Double> fValuesMulti = new ArrayList<>();
+        int N = 0;
 
-        if (xValues.size() != fxValues.size() || xValues.size() != multiplicities.size() || xValues.size() != derivativesList.size()) {
-            throw new IllegalArgumentException("All input lists must have the same size.");
+        for (int m : multiplicities) {
+            N += m;
         }
 
-        List<Double> z = new ArrayList<>();
-        List<Double> Q = new ArrayList<>();
-        int m = 0;
-
-        // Construct the extended list of nodes and function values
-        for (int i = 0; i < n; i++) {
-            int multiplicity = multiplicities.get(i);
-            m += multiplicity;
-            z.add(xValues.get(i));
-            Q.add(fxValues.get(i));
-
-            for (int k = 0; k < multiplicity - 1; k++) {
-                z.add(xValues.get(i));
-                Q.add(derivativesList.get(i).get(k));
+        for (int i = 0; i < nodes.length; i++) {
+            for (int j = 0; j < multiplicities[i]; j++) {
+                nodesMulti.add(nodes[i]);
+                fValuesMulti.add(fValues[i]);
             }
         }
 
-        double[][] dividedDifferences = new double[m][m];
+        double[][] table = new double[N][N];
 
-        // Initialize the first column of divided differences
-        for (int i = 0; i < m; i++) {
-            dividedDifferences[i][0] = Q.get(i);
+        for (int i = 0; i < N; i++) {
+            table[i][0] = fValuesMulti.get(i);
         }
 
-        // Calculate the first divided differences
-        for (int i = 1; i < m; i++) {
-            if (z.get(i).equals(z.get(i - 1))) {
-                dividedDifferences[i - 1][1] = Q.get(i);
-            } else {
-                dividedDifferences[i - 1][1] = (dividedDifferences[i][0] - dividedDifferences[i - 1][0]) / (z.get(i) - z.get(i - 1));
-            }
-        }
-
-        // Calculate the remaining divided differences
-        for (int j = 2; j < m; j++) {
-            for (int i = 0; i < m - j; i++) {
-                if (z.get(i).equals(z.get(i + j))) {
-                    dividedDifferences[i][j] = dividedDifferences[i + 1][j - 1] / factorial(j);
+        for (int j = 1; j < N; j++) {
+            for (int i = j; i < N; i++) {
+                if (nodesMulti.get(i).equals(nodesMulti.get(i - j))) {
+                    int nodeIndex = findNodeIndex(nodes, nodesMulti.get(i));
+                    table[i][j] = derivatives.get(nodeIndex).get(j - 1) / factorial(j);
                 } else {
-                    dividedDifferences[i][j] = (dividedDifferences[i + 1][j - 1] - dividedDifferences[i][j - 1]) / (z.get(i + j) - z.get(i));
+                    table[i][j] = (table[i][j - 1] - table[i - j][j - 1]) / (nodesMulti.get(i) - nodesMulti.get(i - j));
                 }
             }
         }
 
-        // Build the Hermite interpolation polynomial
-        builder.append("Интерполяционный многочлен Эрмита:\n");
-        builder.append("\\[H(x) = ").append(String.format("%.6f", dividedDifferences[0][0]));
-
-        for (int i = 1; i < m; i++) {
-            builder.append(" + ");
-            for (int k = 0; k < i; k++) {
-                builder.append(String.format("(x - %.6f)", z.get(k)));
-            }
-            builder.append(String.format(" \\cdot %.6f", dividedDifferences[0][i]));
+        output.append("\nТаблица разделённых разностей:\n");
+        output.append("\\begin{array}{|c|c|");
+        for (int j = 1; j < N; j++) {
+            output.append("c|");
         }
-        builder.append("\\]\n");
+        output.append("}\n\\hline\n");
 
-        return builder.toString();
+        output.append("x_i & f(x_i) ");
+        for (int j = 1; j < N; j++) {
+            output.append(" & f[");
+            for (int idx = 0; idx <= j; idx++) {
+                if (idx > 0) output.append(", ");
+                output.append(String.format("x_{%d}", idx + 1));
+            }
+            output.append("] ");
+        }
+        output.append(" \\\\\n\\hline\n");
+
+        for (int i = 0; i < N; i++) {
+            output.append(String.format("%.6f", nodesMulti.get(i))).append(" & ");
+            output.append(String.format("%.6f", table[i][0]));
+            for (int j = 1; j <= i; j++) {
+                output.append(" & ").append(String.format("%.6f", table[i][j]));
+            }
+            output.append(" \\\\\n\\hline\n");
+        }
+        output.append("\\end{array}");
+
+        output.append("\nИнтерполяционный многочлен Эрмита:\n");
+        output.append("\\[ H(x) = ");
+        output.append(String.format("%.6f", table[0][0]));
+
+        for (int i = 1; i < N; i++) {
+            output.append(" + ").append(String.format("%.6f", table[i][i]));
+            for (int j = 0; j < i; j++) {
+                output.append("(x - ").append(String.format("%.6f", nodesMulti.get(j))).append(")");
+            }
+        }
+        output.append(" \\]\n");
+
+        return output.toString();
+    }
+
+    private int findNodeIndex(double[] nodes, double z) {
+        for (int i = 0; i < nodes.length; i++) {
+            if (Double.compare(nodes[i], z) == 0) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("Node not found");
     }
 
     private int factorial(int n) {
-        if (n == 0 || n == 1) return 1;
-        int result = 1;
-        for (int i = 2; i <= n; i++) {
-            result *= i;
-        }
-        return result;
+        if (n <= 1) return 1;
+        return n * factorial(n - 1);
     }
 }

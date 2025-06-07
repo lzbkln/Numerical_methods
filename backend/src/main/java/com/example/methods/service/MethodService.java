@@ -1,9 +1,6 @@
 package com.example.methods.service;
 
-import com.example.methods.dto.DtoMethod;
-import com.example.methods.dto.InterpolationRequest;
-import com.example.methods.dto.SolveProblemRequest;
-import com.example.methods.dto.SolveProblemResponse;
+import com.example.methods.dto.*;
 import com.example.methods.mapper.MethodMapper;
 import com.example.methods.mapper.SolveProblemResponseMapper;
 import com.example.methods.model.Method;
@@ -19,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -72,26 +68,27 @@ public class MethodService {
     }
 
     public SolveProblemResponse solveProblemInterpolation(InterpolationRequest interpolationRequest) {
-        if (Objects.equals(interpolationRequest.getMethodId(), "8")) {
-            String solutionMessage = hermiteInterpolationService.solveInterpolationProblem(
-                    interpolationRequest.getXValues(),
-                    interpolationRequest.getFxValues(),
-                    interpolationRequest.getMultiplicities(),
-                    interpolationRequest.getDerivatives()
-            );
-            return solveProblemResponseMapper.mapToDto(solutionMessage);
-        } else {
-            SolveInterpolationProblem solveProblem = switch (interpolationRequest.getMethodId()) {
-                case "6" -> lagrangeInterpolationService;
-                case "7" -> newtonInterpolationService;
-                default -> throw new IllegalArgumentException("Unknown method: " + interpolationRequest.getMethodId());
-            };
-            String solutionMessage = solveProblem.solveInterpolationProblem(
-                    interpolationRequest.getXValues(),
-                    interpolationRequest.getFxValues(),
-                    interpolationRequest.getInterpolationPoints()
-            );
-            return solveProblemResponseMapper.mapToDto(solutionMessage);
-        }
+        SolveInterpolationProblem solveProblem = switch (interpolationRequest.getMethodId()) {
+            case "6" -> lagrangeInterpolationService;
+            case "7" -> newtonInterpolationService;
+            default -> throw new IllegalArgumentException("Unknown method: " + interpolationRequest.getMethodId());
+        };
+        String solutionMessage = solveProblem.solveInterpolationProblem(
+                interpolationRequest.getXValues(),
+                interpolationRequest.getFxValues(),
+                interpolationRequest.getInterpolationPoints()
+        );
+        return solveProblemResponseMapper.mapToDto(solutionMessage);
+
+    }
+
+    public SolveProblemResponse solveProblemHermitInterpolation(HermiteInterpolationRequest interpolationRequest) {
+        String solutionMessage = hermiteInterpolationService.solveInterpolationProblem(
+                interpolationRequest.getNodes(),
+                interpolationRequest.getMultiplicities(),
+                interpolationRequest.getFunctionValues(),
+                interpolationRequest.getDerivatives()
+        );
+        return solveProblemResponseMapper.mapToDto(solutionMessage);
     }
 }
