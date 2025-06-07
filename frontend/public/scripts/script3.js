@@ -354,7 +354,6 @@ function solveHermiteInterpolation() {
     let fxValues = [];
     let derivativesList = [];
 
-    let index = 0;
     for (let [key, value] of formData.entries()) {
       console.log(key + ' ' + value);
       if (key.startsWith('x')) {
@@ -370,15 +369,14 @@ function solveHermiteInterpolation() {
     }
 
     let requestData = {
-      methodId: '8',
-      xValues: xValues,
-      fxValues: fxValues,
+      nodes: xValues,
       multiplicities: multiplicities,
-      derivativesList: derivativesList,
+      functionValues: fxValues,
+      derivatives: derivativesList,
     };
 
     console.log(requestData);
-    fetch('http://51.250.110.159:8080/numerical_methods/interpolation', {
+    fetch('http://51.250.110.159:8080/numerical_methods/hermit_interpolation', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestData),
