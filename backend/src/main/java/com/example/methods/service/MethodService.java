@@ -12,8 +12,12 @@ import com.example.methods.service.interpolation.HermiteInterpolationService;
 import com.example.methods.service.interpolation.LagrangeInterpolationService;
 import com.example.methods.service.interpolation.NewtonInterpolationService;
 import com.example.methods.service.interpolation.SolveInterpolationProblem;
+import com.example.methods.service.systems.GaussianSolverService;
+import com.example.methods.service.systems.TridiagonalSweepSolverService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +37,8 @@ public class MethodService {
     private final LagrangeInterpolationService lagrangeInterpolationService;
     private final NewtonInterpolationService newtonInterpolationService;
     private final HermiteInterpolationService hermiteInterpolationService;
+    private final GaussianSolverService gaussianSolverService;
+    private final TridiagonalSweepSolverService tridiagonalSweepSolverService;
 
     public DtoMethod getMethodById(Long id) {
         Optional<Method> method = methodRepository.findById(id);
@@ -89,6 +95,16 @@ public class MethodService {
                 interpolationRequest.getFunctionValues(),
                 interpolationRequest.getDerivatives()
         );
+        return solveProblemResponseMapper.mapToDto(solutionMessage);
+    }
+
+    public SolveProblemResponse systemsGaussSolve(LinearSystemRequestDto requestDto) {
+        String solutionMessage = gaussianSolverService.solve(requestDto);
+        return solveProblemResponseMapper.mapToDto(solutionMessage);
+    }
+
+    public SolveProblemResponse systemsSweepSolve(LinearSystemRequestDto requestDto) {
+        String solutionMessage = tridiagonalSweepSolverService.solve(requestDto);
         return solveProblemResponseMapper.mapToDto(solutionMessage);
     }
 }

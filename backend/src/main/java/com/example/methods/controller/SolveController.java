@@ -3,6 +3,7 @@ package com.example.methods.controller;
 import com.example.methods.dto.*;
 import com.example.methods.service.MethodService;
 import com.example.methods.service.ProblemService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,4 +40,15 @@ public class SolveController {
     public SolveProblemResponse interpolate(@RequestBody HermiteInterpolationRequest requestDto) {
         return methodService.solveProblemHermitInterpolation(requestDto);
     }
+
+    @PostMapping("/gauss")
+    public SolveProblemResponse solveGaussian(@Valid @RequestBody LinearSystemRequestDto req) {
+        return methodService.systemsGaussSolve(req);
+    }
+
+    @PostMapping("/tridiagonal_sweep")
+    public SolveProblemResponse solveSweep(@Valid @RequestBody LinearSystemRequestDto req) {
+        return methodService.systemsSweepSolve(req);
+    }
+
 }

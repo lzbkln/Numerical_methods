@@ -10,6 +10,3 @@ CREATE TABLE problems (
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL
 );
-
-INSERT INTO problems (name, description)
-VALUES ('Нелинейные уравнения', 'Описание нелинейных уравнений');

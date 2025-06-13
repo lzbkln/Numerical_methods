@@ -56,7 +56,8 @@ public class NewtonMethodService extends SolveEquationsProblem {
         double fb = f.apply(b);
         if (fa * fb >= 0) {
             throw new NoRootFoundException(
-                    "На интервале [" + a + ", " + b + "] функция не меняет знак. Похоже, что на этом отрезке нет корня, или их чётное число."
+                    "На интервале [" + a + ", " + b + "] функция не меняет знак. " +
+                            "Похоже, что на этом отрезке нет корня, или их чётное число."
             );
         }
 

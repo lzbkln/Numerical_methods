@@ -27,4 +27,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleInvalidInterpolationDataException(InvalidInterpolationDataException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
+
+    @ExceptionHandler(ZeroPivotException.class)
+    public ResponseEntity<String> handleZeroPivotException(ZeroPivotException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NotDiagonalDominanceException.class)
+    public ResponseEntity<String> handleNotDiagonalDominanceException(NotDiagonalDominanceException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
 }
